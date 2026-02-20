@@ -2,7 +2,7 @@
 //  MyFridgeApp.swift
 //  MyFridge
 //
-//  Created by Developer on 13.01.2026.
+//  Created by Developer on 20.02.2026.
 //
 
 import SwiftUI
@@ -11,7 +11,7 @@ import SwiftUI
 struct MyFridgeApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ProductListView()
         }
     }
 }
