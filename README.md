@@ -21,5 +21,3 @@ Example:
 open MyFridge.xcodeproj
 # Or open the workspace if you use Swift packages: open MyFridge.xcworkspace
 ```
-
-If you'd like, I can expand the README with screenshots, data model details, or usage examples.
