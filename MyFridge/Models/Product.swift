@@ -7,12 +7,21 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
 
-struct Product: Identifiable, Equatable {
-    let id: UUID
-    let name: String
-    let expiresAt: Date
-    let createdAt: Date
+@Model
+final class Product: Identifiable, Equatable {
+    var id: UUID
+    var name: String
+    var expiresAt: Date
+    var createdAt: Date
+    
+    init(name: String, expiresAt: Date) {
+        id = UUID()
+        self.name = name
+        self.expiresAt = expiresAt
+        createdAt = .now
+    }
 }
 
 extension Product {

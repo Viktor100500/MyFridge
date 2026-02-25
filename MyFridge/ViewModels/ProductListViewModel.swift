@@ -7,16 +7,42 @@
 
 import Foundation
 import Observation
+import SwiftData
 
 @Observable
 final class ProductListViewModel {
-    var products: [Product] = [
-        Product(id: UUID(), name: "Milk", expiresAt: .now.addingTimeInterval(86400 * 2), createdAt: .now),
-        Product(id: UUID(), name: "Chicken", expiresAt: .now.addingTimeInterval(-86400), createdAt: .now),
-        Product(id: UUID(), name: "Yogurt", expiresAt: .now.addingTimeInterval(86400 * 7), createdAt: .now)
-    ]
+    private var context: ModelContext
+    
+    var products: [Product] = []
+    
+    init(context: ModelContext) {
+        self.context = context
+        fetchProdcuts()
+    }
+    
+    func fetchProdcuts() {
+        let descriptor = FetchDescriptor<Product>(
+            sortBy: [SortDescriptor(\.expiresAt)]
+        )
+        
+        products = (try? context.fetch(descriptor)) ?? []
+    }
+    
+    func addProduct(name: String, expiresAt: Date) {
+        let product = Product(name: name, expiresAt: expiresAt)
+        context.insert(product)
+        save()
+    }
     
     func deleteProduct(_ product: Product) {
-        products.removeAll { $0.id == product.id }
+        context.delete(product)
+        save()
+    }
+}
+
+private extension ProductListViewModel {
+    func save() {
+        try? context.save()
+        fetchProdcuts()
     }
 }
