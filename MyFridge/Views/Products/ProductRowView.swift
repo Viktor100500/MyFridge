@@ -15,12 +15,12 @@ struct ProductRowView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(product.name)
                     .font(.body)
-                Text(product.expiresAt, style: .date)
+                Text(product.createdAt, style: .date)
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
             Spacer()
-            Text(product.expiresAt.formatted())
+            Text(product.expiresAt.formatted(date: .abbreviated, time: .omitted))
                 .font(.caption)
                 .fontWeight(.medium)
                 .foregroundStyle(.white)

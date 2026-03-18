@@ -30,6 +30,17 @@ struct ProductListView: View {
             .navigationTitle("MyFridge")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
+                    let binding: Binding = Binding(
+                        get: { viewModel?.sortOption ?? .bestBefore },
+                        set: { viewModel?.sortOption = $0 }
+                    )
+                    Picker("Sort", selection: binding) {
+                        ForEach(SortOption.allCases, id: \.self) { option in
+                            Text(option.rawValue)
+                                .tag(option)
+                        }
+                    }
+                    .pickerStyle(.menu)
                     Button {
                         showAddProduct = true
                     } label: {

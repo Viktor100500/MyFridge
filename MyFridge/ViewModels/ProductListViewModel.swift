@@ -9,11 +9,23 @@ import Foundation
 import Observation
 import SwiftData
 
+enum SortOption: String, CaseIterable {
+    case dateAdded = "Date Added"
+    case bestBefore = "Best Before"
+    case name = "Name"
+    case category = "Category"
+}
+
 @Observable
 final class ProductListViewModel {
     private var context: ModelContext
     
     var products: [Product] = []
+    var sortOption: SortOption = .bestBefore {
+        didSet {
+            fetchProdcuts()
+        }
+    }
     
     init(context: ModelContext) {
         self.context = context
@@ -22,7 +34,7 @@ final class ProductListViewModel {
     
     func fetchProdcuts() {
         let descriptor = FetchDescriptor<Product>(
-            sortBy: [SortDescriptor(\.expiresAt)]
+            sortBy: [sortDescriptor]
         )
         
         products = (try? context.fetch(descriptor)) ?? []
@@ -41,6 +53,15 @@ final class ProductListViewModel {
 }
 
 private extension ProductListViewModel {
+    var sortDescriptor: SortDescriptor<Product> {
+        switch sortOption {
+        case .dateAdded: return SortDescriptor(\.createdAt)
+        case .bestBefore: return SortDescriptor(\.expiresAt)
+        case .name: return SortDescriptor(\.name)
+        case .category: return SortDescriptor(\.category.rawValue)
+        }
+    }
+    
     func save() {
         try? context.save()
         fetchProdcuts()
