@@ -58,7 +58,7 @@ private extension ProductListViewModel {
         case .dateAdded: return SortDescriptor(\.createdAt)
         case .bestBefore: return SortDescriptor(\.expiresAt)
         case .name: return SortDescriptor(\.name)
-        case .category: return SortDescriptor(\.category.rawValue)
+        case .category: return SortDescriptor(\.category)
         }
     }
     

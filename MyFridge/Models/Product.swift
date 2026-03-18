@@ -13,14 +13,14 @@ import SwiftData
 final class Product: Identifiable, Equatable {
     var id: UUID
     var name: String
-    var category: ProductCategory
+    var category: String
     var expiresAt: Date
     var createdAt: Date
     
     init(name: String, category: ProductCategory = .other, expiresAt: Date) {
         id = UUID()
         self.name = name
-        self.category = category
+        self.category = category.rawValue
         self.expiresAt = expiresAt
         createdAt = .now
     }
